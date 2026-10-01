@@ -1,0 +1,22 @@
+{
+  "name": "generator-hasel",
+  "version": "1.0.0",
+  "description": "Generator Haseł - Desktopowa aplikacja fiszkowa do generowania haseł",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "password-generator",
+    "generator-hasel",
+    "flashcard",
+    "electron",
+    "desktop-app"
+  ],
+  "author": "Iga Gabska",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^44.4.5"
+  }
+}

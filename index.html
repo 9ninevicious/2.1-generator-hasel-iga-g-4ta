@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generator haseł - Desktop Flashcard Password Generator</title>
+  <meta name="description" content="Nowoczesna aplikacja desktopowa w formie interaktywnych fiszek do generowania haseł o dowolnej długości.">
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+</head>
+<body>
+
+  <!-- Ambient Cyber Background -->
+  <div class="bg-ambient">
+    <div class="bg-ambient-orb-1"></div>
+    <div class="bg-ambient-orb-2"></div>
+    <div class="bg-ambient-grid"></div>
+  </div>
+
+  <div class="app-container">
+    
+    <!-- Top Header Navigation -->
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="brand-icon">
+          <img src="assets/logo.jpg" alt="Logo Generator Haseł" id="brand-logo-img">
+        </div>
+        <div class="brand-titles">
+          <div class="brand-name">
+            <h1 id="txt-app-title">Generator haseł</h1>
+            <span class="brand-badge" id="txt-badge-mode">FISZKA PRO</span>
+          </div>
+          <span class="brand-tagline" id="txt-app-tagline">Inteligentne generowanie bezpiecznych haseł i fiszek</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Sound Effect Toggle -->
+        <button class="btn-icon" id="btn-sound-toggle" title="Dźwięki (Włącz/Wyłącz)" aria-label="Dźwięki">
+          <span id="sound-icon">🔊</span>
+        </button>
+
+        <!-- Theme Toggle -->
+        <button class="btn-icon" id="btn-theme-toggle" title="Zmień motyw wizualny" aria-label="Motyw">
+          <span id="theme-icon">🌙</span>
+        </button>
+
+        <!-- Language Toggle -->
+        <button class="btn-icon" id="btn-lang-toggle" title="Zmień język (PL / EN)" aria-label="Język">
+          <span id="lang-icon" style="font-weight: 700; font-size: 12px;">PL</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Layout -->
+    <main class="main-layout">
+
+      <!-- ================= 3D FLASHCARD WORKSPACE ================= -->
+      <section class="flashcard-scene" aria-label="Fiszka hasła">
+        <div class="flashcard-wrapper" id="flashcard-card">
+          
+          <!-- FRONT OF FLASHCARD -->
+          <div class="flashcard-face flashcard-front">
+            <!-- Card Header -->
+            <div class="card-header-bar">
+              <div class="card-type-chip" id="front-card-badge">
+                <span class="chip-dot"></span>
+                <span id="front-mode-label">KRYPTOGRAFICZNE</span>
+              </div>
+              <div class="card-meta-group">
+                <span class="card-counter" id="front-card-number">Karta #01</span>
+                <div class="card-strength-pill" id="front-strength-pill">
+                  <span id="front-strength-text">Niezłomne</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Password Display Box -->
+            <div class="password-box" id="password-display-box" title="Kliknij, aby skopiować hasło">
+              <div class="password-text-wrap" id="password-rendered">
+                <!-- Highlighted characters injected here -->
+              </div>
+              <div class="password-box-actions">
+                <button class="btn-card-action" id="btn-copy-card" title="Skopiuj hasło do schowka" aria-label="Kopiuj">
+                  📋
+                </button>
+                <button class="btn-card-action" id="btn-star-card" title="Zapisz do ulubionych" aria-label="Ulubione">
+                  ★
+                </button>
+              </div>
+            </div>
+
+            <!-- Strength Meter & Entropy -->
+            <div class="card-metrics-section">
+              <div class="strength-bar-track">
+                <div class="strength-segment" id="seg-1"></div>
+                <div class="strength-segment" id="seg-2"></div>
+                <div class="strength-segment" id="seg-3"></div>
+                <div class="strength-segment" id="seg-4"></div>
+                <div class="strength-segment" id="seg-5"></div>
+              </div>
+              <div class="metrics-labels">
+                <span class="entropy-badge" id="txt-entropy-val">128 bitów entropii</span>
+                <span class="crack-time-badge" id="txt-crack-time">Czas łamania: Tryliony lat</span>
+              </div>
+            </div>
+
+            <!-- Card Bottom Bar & Flip Prompt -->
+            <div class="card-bottom-bar">
+              <button class="card-flip-prompt" id="btn-flip-to-back" aria-label="Odwróć fiszkę">
+                <span>🔄</span>
+                <span id="txt-flip-prompt">Odwróć fiszkę (NATO / QR)</span>
+              </button>
+              <span class="card-length-tag" id="txt-front-length">Długość: 16 znaków</span>
+            </div>
+          </div>
+
+          <!-- BACK OF FLASHCARD -->
+          <div class="flashcard-face flashcard-back">
+            <!-- Back Header -->
+            <div class="card-header-bar">
+              <div class="card-type-chip" style="color: var(--accent-purple); border-color: rgba(168, 85, 247, 0.4); background: rgba(168, 85, 247, 0.1);">
+                <span class="chip-dot" style="background: var(--accent-purple); box-shadow: 0 0 8px var(--accent-purple);"></span>
+                <span id="txt-back-badge">ANALIZA & QR KOD</span>
+              </div>
+              <span class="card-counter" id="back-card-number">Karta #01</span>
+            </div>
+
+            <!-- Back Content: Phonetic breakdown + QR Code -->
+            <div class="card-back-grid">
+              <!-- Left: Phonetic spelling -->
+              <div class="phonetic-container">
+                <span class="back-subtitle" id="txt-phonetic-title">Pisownia fonetyczna (NATO / Opis):</span>
+                <div class="phonetic-tags-wrap" id="phonetic-list-wrap">
+                  <!-- Phonetic pills injected dynamically -->
+                </div>
+                <div class="hash-preview-bar" id="sha256-hash-box">
+                  SHA-256: Obliczanie...
+                </div>
+              </div>
+
+              <!-- Right: Offline QR Code -->
+              <div class="qr-container">
+                <div class="qr-box" id="qr-code-svg-box">
+                  <!-- Injected SVG QR -->
+                </div>
+                <span class="qr-caption" id="txt-qr-caption">Zeskanuj telefonem</span>
+              </div>
+            </div>
+
+            <!-- Back Bottom Bar -->
+            <div class="card-bottom-bar">
+              <button class="card-flip-prompt" id="btn-flip-to-front" aria-label="Wróć do przodu fiszki">
+                <span>↩️</span>
+                <span id="txt-flip-back-prompt">Pokaż hasło (Przód)</span>
+              </button>
+              <button class="btn-secondary" id="btn-copy-phonetic">
+                <span>🗣️ Kopiuj fonetycznie</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ================= CONTROLS & CONFIGURATION PANEL ================= -->
+      <section class="controls-panel" aria-label="Opcje generowania hasła">
+        
+        <!-- Length Control Row: Slider + Direct Input for Whatever Length -->
+        <div class="control-row">
+          <div class="control-label-row">
+            <span class="control-title" id="txt-length-title">Długość hasła:</span>
+            <div class="length-input-wrapper" title="Wpisz dowolną długość hasła">
+              <input type="number" id="input-length-number" class="length-number-input" min="1" max="1000" value="16" aria-label="Wpisz dowolną długość hasła">
+              <span class="length-unit" id="txt-length-unit">znaków</span>
+            </div>
+          </div>
+          
+          <div class="length-slider-group">
+            <div class="slider-container">
+              <input type="range" id="input-length-slider" class="custom-slider" min="4" max="64" value="16" aria-label="Suwak długości hasła">
+            </div>
+          </div>
+
+          <!-- Quick Presets -->
+          <div class="preset-pills">
+            <button class="preset-pill" data-len="8">8</button>
+            <button class="preset-pill" data-len="12">12</button>
+            <button class="preset-pill active" data-len="16">16 (Standard)</button>
+            <button class="preset-pill" data-len="24">24 (Mocne)</button>
+            <button class="preset-pill" data-len="32">32</button>
+            <button class="preset-pill" data-len="64">64</button>
+            <button class="preset-pill" data-len="128">128 (Ultra)</button>
+          </div>
+        </div>
+
+        <!-- Generation Mode Tabs -->
+        <div class="control-row">
+          <div class="control-label-row">
+            <span class="control-title" id="txt-mode-title">Tryb generowania:</span>
+          </div>
+          <div class="mode-tabs-wrap" role="tablist">
+            <button class="mode-tab active" data-mode="random" id="tab-mode-random">
+              <span>🎲</span>
+              <span id="txt-tab-random">Losowe</span>
+            </button>
+            <button class="mode-tab" data-mode="diceware" id="tab-mode-diceware">
+              <span>📚</span>
+              <span id="txt-tab-diceware">Fraza</span>
+            </button>
+            <button class="mode-tab" data-mode="pronounceable" id="tab-mode-pronounceable">
+              <span>🗣️</span>
+              <span id="txt-tab-pronounceable">Wymowne</span>
+            </button>
+            <button class="mode-tab" data-mode="pin" id="tab-mode-pin">
+              <span>🔢</span>
+              <span id="txt-tab-pin">PIN</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Character Inclusions Checkboxes -->
+        <div class="control-row" id="char-options-section">
+          <div class="control-label-row">
+            <span class="control-title" id="txt-charset-title">Zestaw znaków:</span>
+          </div>
+          <div class="options-grid">
+            <label class="custom-checkbox-label">
+              <input type="checkbox" id="chk-upper" checked>
+              <div class="custom-check-box"></div>
+              <span id="txt-chk-upper">Wielkie litery (A-Z)</span>
+            </label>
+
+            <label class="custom-checkbox-label">
+              <input type="checkbox" id="chk-lower" checked>
+              <div class="custom-check-box"></div>
+              <span id="txt-chk-lower">Małe litery (a-z)</span>
+            </label>
+
+            <label class="custom-checkbox-label">
+              <input type="checkbox" id="chk-numbers" checked>
+              <div class="custom-check-box"></div>
+              <span id="txt-chk-numbers">Cyfry (0-9)</span>
+            </label>
+
+            <label class="custom-checkbox-label">
+              <input type="checkbox" id="chk-symbols" checked>
+              <div class="custom-check-box"></div>
+              <span id="txt-chk-symbols">Znaki specjalne (!@#$)</span>
+            </label>
+
+            <label class="custom-checkbox-label">
+              <input type="checkbox" id="chk-ambiguous">
+              <div class="custom-check-box"></div>
+              <span id="txt-chk-ambiguous">Wyklucz mylące (0, O, 1, l, I)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Big Primary Generate Button -->
+        <button class="btn-generate-main" id="btn-generate-action" aria-label="Generuj nowe hasło">
+          <span class="btn-sparkle">⚡</span>
+          <span id="txt-btn-generate">GENERUJ NOWE HASŁO</span>
+        </button>
+
+        <div class="shortcuts-hint">
+          <span id="txt-shortcuts-hint">Skróty klawiszowe: <kbd>Spacja</kbd> lub <kbd>Enter</kbd> = Generuj | <kbd>F</kbd> = Odwróć fiszkę | <kbd>C</kbd> = Kopiuj</span>
+        </div>
+
+      </section>
+
+      <!-- ================= FLASHCARD DECK HISTORY SHELF ================= -->
+      <section class="deck-shelf" aria-label="Talia wygenerowanych fiszek">
+        <div class="deck-header">
+          <div class="deck-title-group">
+            <span class="deck-title" id="txt-shelf-title">Talia wygenerowanych kart</span>
+            <span class="deck-count-pill" id="deck-counter-badge">0 kart</span>
+          </div>
+          <div class="deck-actions">
+            <button class="btn-secondary" id="btn-export-deck">
+              <span>📤</span>
+              <span id="txt-btn-export">Eksportuj talię</span>
+            </button>
+            <button class="btn-secondary" id="btn-clear-deck">
+              <span>🗑️</span>
+              <span id="txt-btn-clear">Wyczyść</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Shelf Grid / Carousel of Cards -->
+        <div class="mini-cards-grid" id="mini-cards-container">
+          <!-- Empty State by default -->
+          <div class="empty-deck-notice" id="empty-deck-msg">
+            Brak kart w talii. Naciśnij "Generuj nowe hasło", aby stworzyć pierwsze fiszki!
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-notice" id="app-toast">
+    <span id="toast-icon">✨</span>
+    <span id="toast-text">Powiadomienie</span>
+  </div>
+
+  <!-- Export Deck Modal -->
+  <div class="modal-overlay" id="export-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="txt-modal-title">Eksport talii haseł</h3>
+        <button class="btn-icon" id="btn-close-modal">✕</button>
+      </div>
+      <p style="font-size: 12px; color: var(--text-muted);" id="txt-modal-desc">
+        Poniżej znajduje się lista wszystkich wygenerowanych haseł z Twojej bieżącej talii:
+      </p>
+      <textarea class="modal-textarea" id="modal-export-content" readonly></textarea>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="btn-copy-export">
+          <span>📋</span> <span id="txt-modal-copy">Kopiuj do schowka</span>
+        </button>
+        <button class="btn-secondary" id="btn-download-export">
+          <span>💾</span> <span id="txt-modal-download">Pobierz TXT</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic Scripts -->
+  <script src="qrcode.js"></script>
+  <script src="sound.js"></script>
+  <script src="generator.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
