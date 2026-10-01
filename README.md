@@ -73,3 +73,4 @@ Aplikacja została zaprojektowana w architekturze Zero-Dependency – możesz po
 - `start.bat` – Skrót uruchamiający aplikację jednym kliknięciem.
 - `assets/` – Ikony i grafika aplikacji.
 
+hello world

@@ -274,7 +274,7 @@ class FlashcardApp {
         this.modeTabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         this.options.mode = tab.getAttribute('data-mode');
-        
+
         // Hide/show character set options when mode is PIN or Diceware
         if (this.options.mode === 'pin') {
           this.charOptionsSection.style.opacity = '0.4';
@@ -564,7 +564,7 @@ class FlashcardApp {
       await navigator.clipboard.writeText(text);
       soundManager.playCopy();
       this.showToast(this.currentLanguage === 'pl' ? 'Pisownia fonetyczna skopiowana!' : 'Phonetics copied!');
-    } catch (e) {}
+    } catch (e) { }
   }
 
   toggleStarCurrentCard() {
@@ -676,7 +676,7 @@ class FlashcardApp {
       await navigator.clipboard.writeText(this.modalExportContent.value);
       soundManager.playCopy();
       this.showToast(TRANSLATIONS[this.currentLanguage].toastDeckCopied);
-    } catch (e) {}
+    } catch (e) { }
   }
 
   downloadExportFile() {
